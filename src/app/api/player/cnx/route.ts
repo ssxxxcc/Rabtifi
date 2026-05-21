@@ -31,24 +31,26 @@ function stripAds(html: string): string {
   return clean;
 }
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const h = searchParams.get("h");
+  if (!h) {
+    return new NextResponse("<html><body>Missing hash</body></html>", {
+      status: 400,
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
+  }
   try {
-    const res = await fetch(`https://vsembed.ru/embed/movie/${id}/`, {
-      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" },
+    const res = await fetch(`https://cloudnestra.com/rcp/${h}`, {
+      headers: { "User-Agent": "Mozilla/5.0" },
     });
     let html = await res.text();
     html = stripAds(html);
-    html = html.replace(/\/\/cloudnestra\.com\/rcp\//g, '/api/player/cnx/?h=');
-    html = html.replace(/src="\/\//g, 'src="https://');
-    html = html.replace(/href="\/\//g, 'href="https://');
-    html = html.replace('<head>', '<head><base href="https://vsembed.ru/">');
     html = html.replace("</head>", POPUP_BLOCKER + "</head>");
     return new NextResponse(html, {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
         "Access-Control-Allow-Origin": "*",
-        "X-Frame-Options": "SAMEORIGIN",
       },
     });
   } catch {
