@@ -4,18 +4,6 @@ const POPUP_BLOCKER = `
 <script>
 (function() {
   window.open = function() { return null; };
-  if (typeof document !== 'undefined') {
-    new MutationObserver(function(mutations) {
-      mutations.forEach(function(m) {
-        m.addedNodes.forEach(function(node) {
-          if (node.tagName === 'IFRAME' && node.src && node.src.includes('cloudnestra.com')) {
-            var hash = node.src.split('/rcp/')[1];
-            if (hash) node.src = '/api/player/cnx/' + encodeURIComponent(hash);
-          }
-        });
-      });
-    }).observe(document.body, { childList: true, subtree: true });
-  }
 })();
 </script>
 `;
@@ -40,7 +28,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     });
     let html = await res.text();
     html = stripAds(html);
-    html = html.replace(/\/\/cloudnestra\.com\/rcp\//g, '/api/player/cnx/');
     html = html.replace(/src="\/\//g, 'src="https://');
     html = html.replace(/href="\/\//g, 'href="https://');
     html = html.replace('<head>', '<head><base href="https://vsembed.ru/">');
