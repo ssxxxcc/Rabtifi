@@ -14,6 +14,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     html = html.replace(/<!-- Histats\.com[\s\S]*?Histats\.com  END  -->/gi, "");
     html = html.replace(/<script[^>]*src=["'][^"']*disable-devtool[^"']*["'][^>]*>[\s\S]*?<\/script>/gi, "");
     html = html.replace(/DisableDevtool\(\{[^}]+\}\);/gi, "");
+    html = html.replace(/<script[^>]*src=["'][^"']*\/reporting\.js[^"']*["'][^>]*>[\s\S]*?<\/script>/gi, "");
+    html = html.replace(/<script[^>]*src=["'][^"']*\/sbx\.js[^"']*["'][^>]*>[\s\S]*?<\/script>/gi, "");
     html = html.replace(/src="\/\//g, 'src="https://');
     html = html.replace(/href="\/\//g, 'href="https://');
     html = html.replace(/<iframe\s/g, '<iframe sandbox="allow-scripts allow-same-origin" ');
