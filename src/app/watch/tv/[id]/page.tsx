@@ -23,11 +23,10 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
       {/* Player */}
       <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
-          src={`https://vidsrc.to/embed/tv/${id}/${seasonNum}-${episodeNum}`}
+          src={`https://2embed.skin/embed/${id}/${seasonNum}-${episodeNum}`}
           className="absolute inset-0 w-full h-full"
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
-          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
           referrerPolicy="no-referrer"
         />
       </div>
