@@ -6,19 +6,25 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   const s = searchParams.get("s") || "1";
   const e = searchParams.get("e") || "1";
   try {
-    const res = await fetch(`https://vidsrc.cc/embed/tv/${id}`, {
+    const res = await fetch(`https://vsembed.ru/embed/tv/${id}/${s}-${e}`, {
       headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" },
     });
     let html = await res.text();
-    if (html.includes("Opps! 404") || html.includes("<title>Not Found</title>")) {
-      html = `<!DOCTYPE html><html><head><style>body{margin:0;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center}</style></head><body><div><p style="font-size:2rem;color:yellow;margin:0">⚠</p><p style="color:#888">This title is temporarily unavailable on the current source.</p><p style="color:#555;font-size:0.8rem">Try refreshing or choose another title.</p></div></body></html>`;
-    } else {
-      html = html.replace(/src="\/\//g, 'src="https://');
-      html = html.replace(/href="\/\//g, 'href="https://');
-      html = html.replace('<head>', '<head><base href="https://vidsrc.cc/">');
-    }
+    html = html.replace(/<script[^>]*src=["'][^"']*cloudnestra\.com[^"']*["'][^>]*>[\s\S]*?<\/script>/gi, "");
+    html = html.replace(/<script[^>]*src=["'][^"']*llvpn\.com[^"']*["'][^>]*>[\s\S]*?<\/script>/gi, "");
+    html = html.replace(/<script[^>]*data-cf-beacon[^>]*>[\s\S]*?<\/script>/gi, "");
+    html = html.replace(/<div[^>]*id="histats_counter"[^>]*>.*?<\/div>/gi, "");
+    html = html.replace(/<!-- Histats\.com[\s\S]*?Histats\.com  END  -->/gi, "");
+    html = html.replace(/<script[^>]*src=["'][^"']*disable-devtool[^"']*["'][^>]*>[\s\S]*?<\/script>/gi, "");
+    html = html.replace(/DisableDevtool\(\{[^}]+\}\);/gi, "");
+    html = html.replace(/src="\/\//g, 'src="https://');
+    html = html.replace(/href="\/\//g, 'href="https://');
+    html = html.replace('<head>', '<head><base href="https://vsembed.ru/"><script>window.open=function(){return null};new MutationObserver(function(m){m.forEach(function(r){r.addedNodes.forEach(function(n){if(n.tagName==="IFRAME")n.setAttribute("sandbox","allow-scripts allow-same-origin")})})}).observe(document.body,{childList:true,subtree:true})</script>');
     return new NextResponse(html, {
-      headers: { "Content-Type": "text/html; charset=utf-8", "Access-Control-Allow-Origin": "*" },
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+      },
     });
   } catch {
     return new NextResponse("<html><body>Player unavailable</body></html>", {
