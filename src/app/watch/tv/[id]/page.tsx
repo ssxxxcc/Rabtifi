@@ -20,7 +20,6 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Player */}
       <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
           src={`https://vidsrc.to/embed/tv/${id}/${seasonNum}-${episodeNum}`}
@@ -28,12 +27,9 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
           loading="lazy"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
-          referrerPolicy="no-referrer"
         />
       </div>
 
-      {/* Info Bar */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <a
           href={`/tv/${show.id}?season=${seasonNum}`}
@@ -42,7 +38,6 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
           ← Back to {show.name}
         </a>
 
-        {/* Episode Navigation */}
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-white">
@@ -95,7 +90,6 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
           </div>
         </div>
 
-        {/* Episode List */}
         {seasonData?.episodes && (
           <section className="mt-8">
             <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-zinc-500 mb-3">

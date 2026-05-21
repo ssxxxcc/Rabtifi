@@ -1,4 +1,4 @@
-import { getMovie, tmdbImage, tmdbBackdrop } from "@/lib/tmdb";
+import { getMovie, tmdbImage } from "@/lib/tmdb";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -10,7 +10,6 @@ export default async function WatchMoviePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Player */}
       <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
           src={`https://vidsrc.to/embed/movie/${id}`}
@@ -18,12 +17,9 @@ export default async function WatchMoviePage({ params }: Props) {
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
           loading="lazy"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
-          referrerPolicy="no-referrer"
         />
       </div>
 
-      {/* Info Bar */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <a
           href={`/movie/${movie.id}`}
