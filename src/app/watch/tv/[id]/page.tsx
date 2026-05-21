@@ -26,7 +26,7 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
           loading="lazy"
-
+          sandbox="allow-scripts allow-same-origin"
         />
       </div>
 

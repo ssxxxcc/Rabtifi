@@ -16,7 +16,7 @@ export default async function WatchMoviePage({ params }: Props) {
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
           loading="lazy"
-
+          sandbox="allow-scripts allow-same-origin"
         />
       </div>
 
