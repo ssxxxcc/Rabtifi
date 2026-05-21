@@ -8,8 +8,9 @@ const POPUP_BLOCKER = `
     new MutationObserver(function(mutations) {
       mutations.forEach(function(m) {
         m.addedNodes.forEach(function(node) {
-          if (node.tagName === 'IFRAME' && node.src && node.src.includes('cloudnestra.com/rcp/')) {
-            node.src = '/api/player/cnx/?h=' + encodeURIComponent(node.src.split('/rcp/')[1]);
+          if (node.tagName === 'IFRAME' && node.src && node.src.includes('cloudnestra.com')) {
+            var hash = node.src.split('/rcp/')[1];
+            if (hash) node.src = '/api/player/cnx/' + encodeURIComponent(hash);
           }
         });
       });
@@ -31,9 +32,9 @@ function stripAds(html: string): string {
   return clean;
 }
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const h = searchParams.get("h");
+export async function GET(req: NextRequest, { params }: { params: Promise<{ hash: string[] }> }) {
+  const { hash } = await params;
+  const h = hash.join("/");
   if (!h) {
     return new NextResponse("<html><body>Missing hash</body></html>", {
       status: 400,
