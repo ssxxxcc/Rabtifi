@@ -13,10 +13,12 @@ export default async function WatchMoviePage({ params }: Props) {
       {/* Player */}
       <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
-          src={`https://2embed.skin/embed/${id}`}
+          src={`https://vidsrc.to/embed/movie/${id}`}
           className="absolute inset-0 w-full h-full"
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
           referrerPolicy="no-referrer"
         />
       </div>
