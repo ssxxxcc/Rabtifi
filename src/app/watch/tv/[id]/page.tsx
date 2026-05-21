@@ -1,4 +1,5 @@
 import { getTVShow, getTVSeason, tmdbImage } from "@/lib/tmdb";
+import PopupBlocker from "@/components/PopupBlocker";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -20,13 +21,15 @@ export default async function WatchTVPage({ params, searchParams }: Props) {
 
   return (
     <div className="min-h-screen bg-black">
+      <PopupBlocker />
       <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
-          src={`https://vidsrc.to/embed/tv/${id}/${seasonNum}-${episodeNum}`}
+          src={`https://vsembed.ru/embed/tv/${id}/${seasonNum}-${episodeNum}`}
           className="absolute inset-0 w-full h-full"
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
           loading="lazy"
+          sandbox="allow-scripts allow-same-origin allow-forms"
         />
       </div>
 
