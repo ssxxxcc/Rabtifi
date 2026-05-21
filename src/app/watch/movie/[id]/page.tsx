@@ -1,6 +1,4 @@
 import { getMovie, tmdbImage } from "@/lib/tmdb";
-import PopupBlocker from "@/components/PopupBlocker";
-
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -11,10 +9,9 @@ export default async function WatchMoviePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-black">
-      <PopupBlocker />
       <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
-          src={`https://vsembed.ru/embed/movie/${id}/`}
+          src={`https://vidsrc.to/embed/movie/${id}`}
           className="absolute inset-0 w-full h-full"
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
