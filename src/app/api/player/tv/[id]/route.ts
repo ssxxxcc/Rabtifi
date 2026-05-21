@@ -19,7 +19,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     html = html.replace(/DisableDevtool\(\{[^}]+\}\);/gi, "");
     html = html.replace(/src="\/\//g, 'src="https://');
     html = html.replace(/href="\/\//g, 'href="https://');
-    html = html.replace('<head>', '<head><base href="https://vsembed.ru/"><script>window.open=function(){return null};new MutationObserver(function(m){m.forEach(function(r){r.addedNodes.forEach(function(n){if(n.tagName==="IFRAME")n.setAttribute("sandbox","allow-scripts allow-same-origin")})})}).observe(document.body,{childList:true,subtree:true})</script>');
+    html = html.replace(/<iframe\s/g, '<iframe sandbox="allow-scripts allow-same-origin" ');
+    html = html.replace('<head>', '<head><base href="https://vsembed.ru/"><script>window.open=function(){return null};var ce=document.createElement.bind(document);document.createElement=function(t){var e=ce(t);if(t&&t.toLowerCase&&t.toLowerCase()==="iframe"){e.setAttribute("sandbox","allow-scripts allow-same-origin")}return e}</script>');
     return new NextResponse(html, {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
