@@ -17,6 +17,8 @@ export default async function WatchMoviePage({ params }: Props) {
           className="absolute inset-0 w-full h-full"
           allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
+          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+          referrerPolicy="no-referrer"
         />
       </div>
 
